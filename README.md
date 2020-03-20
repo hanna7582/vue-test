@@ -1,6 +1,6 @@
 # Vue.js 
 
-- [Vuejs](https://hanna7582.github.io/vue-test/vue.html)
-- [Vuex](https://hanna7582.github.io/vue-test/vuex.html)
+- [Vuejs](https://github.com/hanna7582/vue-test/blob/gh-pages/vuejs.md)
+- [Vuex](https://github.com/hanna7582/vue-test/blob/gh-pages/vuex.md)
 <!-- [Router]() -->
 <!-- [Axios]() -->
