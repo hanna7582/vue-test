@@ -21,7 +21,7 @@
 - [라우터(router)](#라우터-router)
 - [Vue CLI](#vue-cli)
 
-# [개요](#vue.js)
+# [개요](#vuejs)
 웹페이지 화면을 개발하기 위한 SPA 자바스크립트 프레임워크
 
 `Reactivity`  
@@ -48,7 +48,7 @@ MVVM패턴의 뷰모델(ViewModel)레이어에 해당하는 화면 단 라이브
 | `ViewModel` | 뷰와 모델의 중간 영역. 돔 리스너와 데이터 바인딩을 제공
 
 
-# [특징](#Vue.js)
+# [특징](#vuejs)
 - 디렉티브를 이용한 `데이터 바인딩`과 화면단위를 반응적이고 조합가능한 `컴포넌트`형태로 제공한다.
 - Angular의 `양방향 데이터 바인딩`을 동일하게 제공한다.
 - React의 `가상돔(Virtual DOM)`을 이용한 렌더링 방식을 동일하게 제공한다. 
@@ -66,7 +66,7 @@ MVVM패턴의 뷰모델(ViewModel)레이어에 해당하는 화면 단 라이브
   
 
 
-# [JSP와 Vue비교](#Vue.js)
+# [JSP와 Vue비교](#vuejs)
 
 ## DOM 제어 
 `jsp`  
@@ -217,7 +217,7 @@ export default {
 
 
 
-# [생명주기(Lifecycle)](#Vue.js)
+# [생명주기(Lifecycle)](#vuejs)
 <!-- ![Vue Lifecycle](https://vuejs.org/images/lifecycle.png) -->
 ![lifecycle](img/lifecycle.png)
 - 인스턴스 생성(create)  
@@ -240,7 +240,7 @@ export default {
 
 
 
-# [인스턴스](#Vue.js)
+# [인스턴스](#vuejs)
 필수로 생성해야하는 단위이며 인스턴스안에 여러가지 내용을 추가할 수 있다.
 
 `templete`
@@ -323,7 +323,7 @@ computed: {
 
 
 
-# [컴포넌트](#Vue.js)
+# [컴포넌트](#vuejs)
 화면의 영역을 구분해서 개발하는 방식  
 UI는 컴포넌트 기반으로 개발하며 이는 코드의 재사용관점에서 유용하다.
 
@@ -361,7 +361,7 @@ export default {
 
 
 
-# [템플릿 문법](#Vue.js)
+# [템플릿 문법](#vuejs)
 화면 조작 
 - 데이터 바인딩 : reactivity방식
 - 뷰 디렉티브 : v-on, v-if, v-model ...
@@ -370,7 +370,7 @@ export default {
 
 
 
-# [컴포넌트 통신](#Vue.js)
+# [컴포넌트 통신](#vuejs)
 데이터의 흐름을 제어하기 위한 규칙을 제한
 - props(상위에서 하위로) : 특정 컴포넌트에서만 사용되는 고유 속성 
 - event emit(하위에서 상위로) : 특정 컴포넌트에서만 사용되는 고유 이벤트
@@ -493,7 +493,7 @@ export default {
 
 
 
-# [HTTP 통신 라이브러리(axios)](#Vue.js)
+# [HTTP 통신 라이브러리(axios)](#vuejs)
 
 `Promise based HTTP client for the browser and node.js`
 
@@ -642,7 +642,7 @@ export default {
 
 
 
-# [Vue CLI](#vue.js)
+# [Vue CLI](#vuejs)
 
 커멘드 라인 인터페이스 기반의 Vue 프로젝트 생성 도구 
 
