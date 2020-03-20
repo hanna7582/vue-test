@@ -498,3 +498,24 @@ export default {
 
 `vue-cli 라이브러리 설치(전역)`
 > npm i @vue/cli -g
+
+## 프로젝트 생성시 구조
+
+프로젝트명  
+- dist : 빌드시 생성되는 폴더  
+- node_modules : npm 모듈 소스
+- public 
+  - favicon.ico
+  - index.html : 번들링된 파일을 삽입하고 클라이언트에서 랜더링을 수행
+- src  
+  - `assets ` : image, css, js등의 정적 소스
+  - `components` : 루트 컴포넌트에 연결되는 독립적인 컴포넌트
+  - `App.vue` : 루트 컴포넌트
+  - `main.js ` : webpack이 빌드를 시작할 때 가장 처음 불러오는 진입 지점(Entry Point)
+- .gitignore : git을 사용할 경우 형상관리하지 않을 목록을 작성  
+- babel.config.js  : 크로스브라우징을 위한 트랜스파일링
+- package-lock.json : 의존성 트리에 대한 정보
+- package.json : npm 모듈 설정
+- README.md : 애플리케이션의 정보를 작성 후 git으로 함께 배포
+- `vue.config.js` : webpack 설정
+- yarn.lock : 의존성관리 javascript 패키지 매니저 
