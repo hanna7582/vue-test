@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>vuex.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="vuexstore">Vuex(Store)</h1>
+<h2 id="%EB%AA%A9%EC%B0%A8">목차</h2>
+<ul>
+<li><a href="#vuex%EA%B0%9C%EC%9A%94">Vuex개요</a></li>
+<li><a href="#Flux-%ED%8C%A8%ED%84%B4-%EC%86%8C%EA%B0%9C">Flux 패턴 소개</a></li>
+<li><a href="#Vuex-%EC%BB%A8%EC%85%89%EA%B3%BC-%EA%B5%AC%EC%A1%B0">Vuex 컨셉과 구조</a></li>
+<li><a href="#Vuex-%EC%84%A4%EC%B9%98-%EB%B0%8F-%EC%8B%9C%EC%9E%91">Vuex 설치 및 시작</a></li>
+<li><a href="#Vuex-%EA%B8%B0%EC%88%A0%EC%9A%94%EC%86%8C">Vuex 기술요소</a></li>
+<li><a href="#Vuex-Helpers">Vuex Helpers</a></li>
+<li><a href="#Vuex%EB%A1%9C-%EA%B5%AC%EC%A1%B0%ED%99%94-%EB%B0%8F-%EB%AA%A8%EB%93%88%ED%99%94%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95">Vuex로 구조화 및 모듈화하는 방법</a></li>
+</ul>
+<h1 id="vuex%EA%B0%9C%EC%9A%94"><a href="#vuexstore"><code>Vuex개요</code></a></h1>
+<ul>
+<li>무수히 많은 컴포넌트의 데이터를 관리하기 위한 상태 관리 패턴이자 라이브러리</li>
+<li>Vuex 라이브러리의 등장 배경인 Flux패턴</li>
+<li>주요 속성 state, getters, mutations, actions<br>
+<a href="https://steemit.com/kr/@stepanowon/vuex">vuex 참고</a></li>
+</ul>
+<h1 id="flux-%ED%8C%A8%ED%84%B4-%EC%86%8C%EA%B0%9C"><a href="#vuexstore"><code>Flux 패턴 소개</code></a></h1>
+<p>MVC패턴의 복잡한 데이터 흐름 문제를 해결하는 개발 패턴이다.<br>
+단방향 데이터 흐름(Unidirectional data flow)을 가지고 있다.</p>
+<ul>
+<li>부모 -&gt; props -&gt; 자식</li>
+<li>자식 -&gt; emit -&gt; 부모</li>
+</ul>
+<h2 id="1mvc%ED%8C%A8%ED%84%B4">1.MVC패턴</h2>
+<pre class="hljs"><code><div>controller -&gt; model &lt;-&gt; view
+</div></code></pre>
+<p><code>MVC패턴의 문제점</code></p>
+<ul>
+<li>기능 추가 및 변경에 따라 생기는 문제점을 예측할 수 없음</li>
+<li>앱이 복잡해지면서 생기는 업데이트 루프</li>
+</ul>
+<h2 id="2flux%ED%8C%A8%ED%84%B4">2.Flux패턴</h2>
+<p>데이터의 흐름이 여러갈래로 나뉘지 않고 단방향으로만 처리되는 패턴</p>
+<pre class="hljs"><code><div>Action -&gt; Dispatcher -&gt; Model(Store) -&gt; View -&gt; Action ...
+</div></code></pre>
+<ol>
+<li>action : 화면에서 발생하는 이벤트 또는 사용자의 입력</li>
+<li>dispatcher : 데이터를 변경하는 방법, 메서드</li>
+<li>model : 화면에 표시할 데이터</li>
+<li>view : 사용자에게 비춰지는 화면</li>
+</ol>
+<h2 id="3vuex%EA%B0%80-%ED%95%84%EC%9A%94%ED%95%9C-%EC%9D%B4%EC%9C%A0">3.Vuex가 필요한 이유</h2>
+<p>복잡한 애플리케이션에서 컴포넌트의 개수가 많아지면 컴포넌트 간에 데이터 전달이 어려워진다.<br>
+즉 props나 이벤트로 계속 전달을 해주어야 한다.</p>
+<p>ex)로그인 처리</p>
+<pre class="hljs"><code><div>a 로그인 폼 -&gt; b 로그인 -&gt; c 기타처리 -&gt; d 기타처리 -&gt; e 루트 -&gt; f 메인   
+</div></code></pre>
+<p>a컴포넌트에서 f컴포넌트로 가기위해 여러번 걸쳐야하는 번거로움이 발생</p>
+<p><code>이벤트버스를 사용하면?</code></p>
+<ul>
+<li>컴포넌트간 데이터 전달이 명시적이지 않음</li>
+<li>어디서 이벤트를 보냈는지 혹은 어디서 이벤트를 받았는지 알기 어려움</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment">//Login.vue</span>
+eventBus.$emit(<span class="hljs-string">'fatch'</span>,loginInfo)
+<span class="hljs-comment">//List.vue</span>
+eventBus.$on(<span class="hljs-string">'display'</span>,data =&gt; <span class="hljs-keyword">this</span>.displayOnScreen(data))
+<span class="hljs-comment">//Chart.vue </span>
+eventBus.$emit(<span class="hljs-string">'refreshData'</span>,chartData)
+</div></code></pre>
+<p><code>Vuex로 해결할 수 있는 것</code></p>
+<ol>
+<li>MVC패턴에서 발생하는 구조적 오류</li>
+<li>컴포넌트 간 데이터 전달 명시</li>
+<li>여러개의 컴포넌트에서 같은 데이터를 업데이트 할 때 동기화 문제</li>
+</ol>
+<h1 id="vuex-%EC%BB%A8%EC%85%89%EA%B3%BC-%EA%B5%AC%EC%A1%B0"><a href="#vuexstore"><code>Vuex 컨셉과 구조</code></a></h1>
+<ul>
+<li>State : 컴포넌트 간에 공유하는 <code>data</code></li>
+<li>View : 데이터를 표시하는 화면 <code>template</code></li>
+<li>Actions : 사용자의 입력에 따라 데이터를 변경하는 <code>methods</code></li>
+</ul>
+<p><strong><code>Vuex의 단방향 데이터 흐름 처리</code></strong></p>
+<img src="https://vuex.vuejs.org/flow.png" width="500">
+<p><strong><code>Vuex 구조</code></strong></p>
+<img src="https://vuex.vuejs.org/vuex.png" width="1000">
+<ol>
+<li>컴포넌트(.vue)에서 이벤트(액션)가 발생한다.</li>
+<li>이벤트가 발생되면 dispatch로 비동기 데이터 처리를 위한 actions에 접근한다.</li>
+<li>actions에서 데이터 처리를 한 후 commit으로 동기 처리를 위한 muations에 접근한다.</li>
+<li>muations에서 state값을 변경하기 위한 로직을 수행한다.</li>
+<li>state값이 최종 변경되면 화면을 랜더링한다.</li>
+<li>다시 1번으로 돌아간다.</li>
+</ol>
+<hr>
+<h1 id="vuex-%EC%84%A4%EC%B9%98-%EB%B0%8F-%EC%8B%9C%EC%9E%91"><a href="#vuexstore"><code>Vuex 설치 및 시작</code></a></h1>
+<h2 id="1%EC%84%A4%EC%B9%98">1.설치</h2>
+<blockquote>
+<p>npm install vuex --save</p>
+</blockquote>
+<h2 id="2%EC%8B%9C%EC%9E%91">2.시작</h2>
+<p>src폴더에 store/store.js 생성</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> Vue <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>
+<span class="hljs-keyword">import</span> Vuex <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex'</span>
+
+Vue.use(Vuex);
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> store = <span class="hljs-keyword">new</span> Vuex.Store({
+  <span class="hljs-attr">state</span>:{},
+  <span class="hljs-attr">getters</span>:{},
+  <span class="hljs-attr">mutations</span>:{},
+  <span class="hljs-attr">actions</span>:{}
+})
+</div></code></pre>
+<h1 id="vuex-%EA%B8%B0%EC%88%A0%EC%9A%94%EC%86%8C"><a href="#vuexstore"><code>Vuex 기술요소</code></a></h1>
+<h2 id="store-%EA%B0%9D%EC%B2%B4%EC%9D%98-%EC%A3%BC%EC%9A%94-%EC%9A%94%EC%86%8C">Store 객체의 주요 요소</h2>
+<table>
+<thead>
+<tr>
+<th>요소</th>
+<th>설명</th>
+<th style="text-align:right">방식</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>state</code></td>
+<td>여러 컴포넌트에 공유되는 데이터</td>
+<td style="text-align:right">data</td>
+</tr>
+<tr>
+<td><code>getters</code></td>
+<td>연산된 state값을 접근하는 속성</td>
+<td style="text-align:right">computed</td>
+</tr>
+<tr>
+<td><code>mutations</code></td>
+<td>state값을 변경하는 로직을 선언</td>
+<td style="text-align:right">method</td>
+</tr>
+<tr>
+<td><code>actions</code></td>
+<td>비동기 처리 로직을 선언</td>
+<td style="text-align:right">aysnc method</td>
+</tr>
+<tr>
+<td><code>commit</code></td>
+<td>변이(mutations) 호출</td>
+<td style="text-align:right">method</td>
+</tr>
+<tr>
+<td><code>dispatch</code></td>
+<td>액션(actions) 호출 (한 액션에서 다른 액션을 호출할 수 있다)</td>
+<td style="text-align:right">method</td>
+</tr>
+</tbody>
+</table>
+<!-- | `rootGetters` | 루트 저장소의 게터 |       computed |
+| `rootState`   | 루트 저장소의 상태 데이터 |       data |
+-->
+<h2 id="1state">1.state</h2>
+<pre class="hljs"><code><div><span class="hljs-comment">// Vue</span>
+<span class="hljs-attr">data</span>:{
+  <span class="hljs-attr">message</span>:<span class="hljs-string">'hi'</span>
+}
+<span class="hljs-comment">// Vuex</span>
+<span class="hljs-attr">state</span>:{
+  <span class="hljs-attr">message</span>:<span class="hljs-string">'hi'</span>
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">&lt;!-- Vue --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{message}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- Vuex --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{this.$store.state.message}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+</div></code></pre>
+<h2 id="2getters">2.getters</h2>
+<p><code>store.js</code></p>
+<pre class="hljs"><code><div>state:{
+  <span class="hljs-attr">num</span>:<span class="hljs-number">10</span>
+},
+<span class="hljs-attr">getters</span>:{
+  getNumber(state){
+    <span class="hljs-keyword">return</span> state.num;
+  },
+  doubleNumber(){
+    <span class="hljs-keyword">return</span> state.num*<span class="hljs-number">2</span>;
+  }
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{this.$store.getters.getNumber}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{this.$store.getters.doubleNumber}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+</div></code></pre>
+<h2 id="3mutations%EB%8F%99%EA%B8%B0-%EC%B2%98%EB%A6%AC-%EB%A1%9C%EC%A7%81">3.mutations(동기 처리 로직)</h2>
+<ul>
+<li>기존 vue에서 methods에 넣었던 코드에 해당됨</li>
+<li>state값을 변경할 수 있는 유일한 방법</li>
+<li>commit(메서드명, 전달할 데이터)으로 동작한다.</li>
+<li>state를 변경하기 위해 mutations를 동작시킬 때 인자(payload)를 전달할 수 있음</li>
+<li>devTools에서 state값을 추적할 수 있다.</li>
+</ul>
+<p><code>store.js</code></p>
+<pre class="hljs"><code><div>state:{<span class="hljs-attr">num</span>:<span class="hljs-number">10</span>},
+<span class="hljs-attr">mutations</span>:{
+  printNumbers(state){
+    <span class="hljs-keyword">return</span> state.num
+  },
+  sumNumbers(state, anotherNum){
+    <span class="hljs-keyword">return</span> state.num+anotherNum
+  },
+  modifyNumbers(state, payload){
+    <span class="hljs-built_in">console</span>.log(payload.str);    
+    <span class="hljs-keyword">return</span> state.num+=payload.num;
+  }
+}
+</div></code></pre>
+<p><code>App.vue</code></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">this</span>.$store.commit(<span class="hljs-string">'printNumbers'</span>);
+<span class="hljs-keyword">this</span>.$store.commit(<span class="hljs-string">'sumNumbers'</span>, <span class="hljs-number">20</span>);
+<span class="hljs-keyword">this</span>.$store.commit(<span class="hljs-string">'modifyNumbers'</span>, {
+  <span class="hljs-attr">str</span>:<span class="hljs-string">'메세지'</span>,
+  <span class="hljs-attr">num</span>:<span class="hljs-number">20</span>
+});
+</div></code></pre>
+<p><code>state는 왜 직접 변경하지 않고 mutations로 변경할까?</code></p>
+<ul>
+<li>여러개의 컴포넌트에서 state값을 직접적으로 변경한다면 어느 컴포넌트에서 해당 state를 변경했는지 추적하기 어렵다.</li>
+<li>특정 시점에 어떤 컴포넌트가 state를 직접 접근하여 변경한 건지 확인하기 어렵기 때문</li>
+<li>따라서 뷰의 반응성을 거스르지 않게 명시적으로 상태 변화를 수행. 반응성, 디버깅, 테스팅</li>
+</ul>
+<h2 id="4actions%EB%B9%84%EB%8F%99%EA%B8%B0-%EC%B2%98%EB%A6%AC-%EB%A1%9C%EC%A7%81">4.actions(비동기 처리 로직)</h2>
+<ul>
+<li>비동기 처리 로직을 선언하는 메서드. 비동기 로직을 담당하는 mutations</li>
+<li>데이터요청, Promise, ES6 async와 같은 비동기 처리는 모두 actions에 선언</li>
+</ul>
+<p><img src="img/비동기데이터처리.png" alt="muations로 시간차 state변경시"></p>
+<p><code>왜 비동기 처리 로직은 actions에 선언해야 할까?</code></p>
+<ul>
+<li>언제 어느 컴포넌트에서 해당 state를 호출하고 변경했는지 확인하기가 어려움</li>
+<li>state값의 변화를 추적하기 어렵기 때문에 mutations속성에는 동기 처리 로직만 넣는다.</li>
+<li>actions에서 비동기 처리를 한 후 안전하게 mutations으로 동기 처리한다.</li>
+</ul>
+<p><code>비동기 데이터 실행 후 state 변경하는 순서</code></p>
+<ol>
+<li>App.vue -&gt; dispatch('delayDoubleNumber')발생</li>
+<li>store.js -&gt; actions의 delayDoubleNumber실행 commit('doubleNumber')발생</li>
+<li>store.js -&gt; mutaions의  doubleNumber실행 state 변경</li>
+</ol>
+<pre class="hljs"><code><div><span class="hljs-comment">//store.js</span>
+<span class="hljs-attr">state</span>:{<span class="hljs-attr">num</span>:<span class="hljs-number">10</span>},
+<span class="hljs-attr">mutations</span>:{
+  doubleNumber(state){
+    state.num*<span class="hljs-number">2</span>;
+  }
+},
+<span class="hljs-attr">actions</span>:{
+  <span class="hljs-comment">//context로 store의 메서드(mutations)와 속성 접근</span>
+  delayDoubleNumber(context){
+    <span class="hljs-comment">//commit() : mutations발생</span>
+    context.commit(<span class="hljs-string">'doubleNumber'</span>)
+  }
+}
+<span class="hljs-comment">//App.vue</span>
+<span class="hljs-comment">//dispatch() : actions발생</span>
+<span class="hljs-keyword">this</span>.$store.dispatch(<span class="hljs-string">'delayDoubleNumber'</span>);
+</div></code></pre>
+<p><code>api 적용 예제</code></p>
+<pre class="hljs"><code><div><span class="hljs-comment">//store.js</span>
+<span class="hljs-attr">state</span>:{<span class="hljs-attr">product</span>:{}},
+<span class="hljs-attr">mutations</span>:{
+  setData(state, fetchedData){
+    state.product=fetchedData;
+  }
+},
+<span class="hljs-attr">actions</span>:{
+  fetchProductData(context){
+    <span class="hljs-keyword">return</span> axios.get(<span class="hljs-string">'https://domain.com/products/1'</span>)
+          .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> context.commit(<span class="hljs-string">'setData'</span>, response))    
+  }
+}
+<span class="hljs-comment">//App.vue</span>
+<span class="hljs-attr">methods</span>:{
+  getProduct(){
+    <span class="hljs-keyword">this</span>.$store.dispatch(<span class="hljs-string">'fetchProductData'</span>);
+  }
+}
+</div></code></pre>
+<h1 id="vuex-helpers"><a href="#vuexstore"><code>Vuex Helpers</code></a></h1>
+<p>Store에 있는 4가지 속성들을 간편하게 코딩하는 방법</p>
+<table>
+<thead>
+<tr>
+<th><code>속성</code></th>
+<th><code>Helper함수</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>state</td>
+<td>mapState</td>
+</tr>
+<tr>
+<td>getters</td>
+<td>mapGetters</td>
+</tr>
+<tr>
+<td>mutations</td>
+<td>mapMutations</td>
+</tr>
+<tr>
+<td>actions</td>
+<td>mapActions</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1mpastate">1.mpaState</h2>
+<pre class="hljs"><code><div><span class="hljs-comment">//store.js</span>
+<span class="hljs-attr">state</span>:{
+  <span class="hljs-attr">num</span>:<span class="hljs-number">10</span>
+}
+
+<span class="hljs-comment">//App.vue</span>
+<span class="hljs-keyword">import</span> { mapState } <span class="hljs-keyword">from</span> <span class="hljs-string">"vuex"</span>;
+
+computed:{
+  ...mapState([<span class="hljs-string">'num'</span>])
+  <span class="hljs-comment">// num(){</span>
+  <span class="hljs-comment">//   return this.$store.state.num;</span>
+  <span class="hljs-comment">// }</span>
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">&lt;!-- &lt;p&gt;{{this.$store.state.num}}&lt;/p&gt; --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{num}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+</div></code></pre>
+<h2 id="2mapgetters">2.mapGetters</h2>
+<pre class="hljs"><code><div><span class="hljs-comment">//store.js</span>
+<span class="hljs-attr">state</span>:{
+  <span class="hljs-attr">msg</span>:<span class="hljs-string">'hello'</span>
+},
+<span class="hljs-attr">getters</span>:{
+  reverseMessage(state){
+    <span class="hljs-keyword">return</span> state.msg.split(<span class="hljs-string">''</span>).reverse().join(<span class="hljs-string">''</span>);
+  }
+}
+
+<span class="hljs-comment">//App.vue</span>
+<span class="hljs-keyword">import</span> { mapGetters } <span class="hljs-keyword">from</span> <span class="hljs-string">"vuex"</span>;
+
+computed(){
+  ...mapGetters([<span class="hljs-string">'reverseMessage'</span>])
+  <span class="hljs-comment">// 사용할 이름을 지정하고 싶을 때</span>
+  <span class="hljs-comment">// ...mapGetters({</span>
+  <span class="hljs-comment">//   reverseMsg:'reverseMessage'}</span>
+  <span class="hljs-comment">// )</span>
+  <span class="hljs-comment">// 기존방식</span>
+  <span class="hljs-comment">// reverseMsg(){</span>
+  <span class="hljs-comment">//   return this.$store.getters.reverseMessage;</span>
+  <span class="hljs-comment">// }</span>
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-comment">&lt;!-- &lt;p&gt;{{this.$store.getters.reverseMsg}}&lt;/p&gt; --&gt;</span>
+<span class="hljs-comment">&lt;!-- &lt;p&gt;{{reverseMsg}}&lt;/p&gt; --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{reverseMessage}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+</div></code></pre>
+<h2 id="3mapmutations">3.mapMutations</h2>
+<pre class="hljs"><code><div><span class="hljs-comment">//store.js</span>
+<span class="hljs-attr">state</span>:{
+  <span class="hljs-attr">msg</span>:<span class="hljs-string">'hello'</span>
+},
+<span class="hljs-attr">mutations</span>:{
+  clickBtn(state){
+    alert(state.msg)
+  }
+}
+
+<span class="hljs-comment">//App.vue</span>
+<span class="hljs-keyword">import</span> { mapMutations } <span class="hljs-keyword">from</span> <span class="hljs-string">"vuex"</span>;
+
+method:{
+  ...mapMutations([<span class="hljs-string">'clickBtn'</span>]),
+  otherMethod(){}  
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">"clickBtn"</span>&gt;</span>msg<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+</div></code></pre>
+<h2 id="4mapactions">4.mapActions</h2>
+<pre class="hljs"><code><div><span class="hljs-comment">//store.js</span>
+<span class="hljs-attr">state</span>:{
+  <span class="hljs-attr">msg</span>:<span class="hljs-string">'hello'</span>
+},
+<span class="hljs-attr">mutations</span>:{
+  clickBtn(state){
+    alert(state.msg)
+  }
+},
+<span class="hljs-attr">actions</span>:{
+  delayClickBtn(context){
+    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> context.commit(<span class="hljs-string">'clickBtn'</span>), <span class="hljs-number">2000</span>)
+  }
+}
+
+<span class="hljs-comment">//App.vue</span>
+<span class="hljs-keyword">import</span> { mapActions } <span class="hljs-keyword">from</span> <span class="hljs-string">"vuex"</span>;
+
+method:{
+  ...mapActions([<span class="hljs-string">'delayClickBtn'</span>]),
+}
+</div></code></pre>
+<pre class="hljs"><code><div><span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">"delayClickBtn"</span>&gt;</span>msg<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+</div></code></pre>
+<h2 id="5-%ED%97%AC%ED%8D%BC%EC%9D%98-%EC%9C%A0%EC%97%B0%ED%95%9C-%EB%AC%B8%EB%B2%95">5. 헬퍼의 유연한 문법</h2>
+<ol>
+<li>Vuex에 선언한 속성을 그대로 컴포넌트에 연결하기</li>
+</ol>
+<pre class="hljs"><code><div>...mapMutations([
+  <span class="hljs-string">'clickBtn'</span>, <span class="hljs-comment">//'clickBtn':clickBtn</span>
+  <span class="hljs-string">'addNumber'</span> <span class="hljs-comment">//addNumber(인자)</span>
+])
+</div></code></pre>
+<ol start="2">
+<li>Vuex에 선언한 속성을 컴포넌트의 특정 메서드에 연결하기</li>
+</ol>
+<pre class="hljs"><code><div>...mapMutations({
+  <span class="hljs-attr">popupMsg</span>:<span class="hljs-string">'clickBtn'</span> <span class="hljs-comment">// 컴포넌트 메서드명 : Store 뮤테이션명</span>
+})
+</div></code></pre>
+<h1 id="vuex%EB%A1%9C-%EA%B5%AC%EC%A1%B0%ED%99%94-%EB%B0%8F-%EB%AA%A8%EB%93%88%ED%99%94%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95"><a href="#vuexstore"><code>Vuex로 구조화 및 모듈화하는 방법</code></a></h1>
+<ul>
+<li>import &amp; export를 이용하여 속성별로 모듈화한다.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment">//store.js</span>
+<span class="hljs-keyword">import</span> Vue <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>
+<span class="hljs-keyword">import</span> Vuex <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex'</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> getters <span class="hljs-keyword">from</span> <span class="hljs-string">'store/getters.js'</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> mutations <span class="hljs-keyword">from</span> <span class="hljs-string">'store/mutations.js'</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> actions <span class="hljs-keyword">from</span> <span class="hljs-string">'store/actions.js'</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> store = <span class="hljs-keyword">new</span> Vuex.Store({
+  <span class="hljs-attr">state</span>:{},<span class="hljs-comment">//내부에 작성</span>
+  <span class="hljs-attr">getters</span>:getters,
+  mutations,<span class="hljs-comment">//이름이 같을 경우 한번만 작성</span>
+  actions
+})
+</div></code></pre>
+<ul>
+<li>1개의 store로 관리하기 힘들 때 modules속성을 사용한다.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment">//store.js</span>
+<span class="hljs-keyword">import</span> Vue <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>
+<span class="hljs-keyword">import</span> Vuex <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex'</span>
+<span class="hljs-keyword">import</span> todo <span class="hljs-keyword">from</span> <span class="hljs-string">'modules/todo.js'</span>
+<span class="hljs-keyword">import</span> notice <span class="hljs-keyword">from</span> <span class="hljs-string">'modules/notice.js'</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> store = <span class="hljs-keyword">new</span> Vuex.Store({
+  <span class="hljs-attr">modules</span>:{
+    <span class="hljs-attr">modulesA</span>:todo, <span class="hljs-comment">//모듈명칭 : 모듈파일명</span>
+    todo, <span class="hljs-comment">// todo:todo =&gt; 이름이 같을 경우 한번만 작성</span>
+    notice
+  }
+})
+
+<span class="hljs-comment">//todo.js</span>
+<span class="hljs-keyword">const</span> state={}
+<span class="hljs-keyword">const</span> getters={}
+<span class="hljs-keyword">const</span> mutations={}
+<span class="hljs-keyword">const</span> actions={}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span>{state, getters, mutaions, actions}
+</div></code></pre>
+
+</body>
+</html>
