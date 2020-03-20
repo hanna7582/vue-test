@@ -21,7 +21,7 @@
 - [라우터(router)](#라우터-router)
 - [Vue CLI](#vue-cli)
 
-# [개요](#Vue.js)
+# [개요](#vue.js)
 웹페이지 화면을 개발하기 위한 SPA 자바스크립트 프레임워크
 
 `Reactivity`  
