@@ -21,16 +21,7 @@ MVC패턴의 복잡한 데이터 흐름 문제를 해결하는 개발 패턴이�
 - 부모 -> props -> 자식  
 - 자식 -> emit -> 부모
 
-## 1.MVC패턴
-```
-controller -> model <-> view
-```
-`MVC패턴의 문제점`  
-- 기능 추가 및 변경에 따라 생기는 문제점을 예측할 수 없음 
-- 앱이 복잡해지면서 생기는 업데이트 루프
-
-
-## 2.Flux패턴
+## 1.Flux패턴
 
 데이터의 흐름이 여러갈래로 나뉘지 않고 단방향으로만 처리되는 패턴
 ```
@@ -41,7 +32,7 @@ Action -> Dispatcher -> Model(Store) -> View -> Action ...
 3. model : 화면에 표시할 데이터
 4. view : 사용자에게 비춰지는 화면
 
-## 3.Vuex가 필요한 이유
+## 2.Vuex가 필요한 이유
 
 복잡한 애플리케이션에서 컴포넌트의 개수가 많아지면 컴포넌트 간에 데이터 전달이 어려워진다.  
 즉 props나 이벤트로 계속 전달을 해주어야 한다.
@@ -123,7 +114,7 @@ export const store = new Vuex.Store({
 | `state`       | 여러 컴포넌트에 공유되는 데이터 |         data |
 | `getters`     | 연산된 state값을 접근하는 속성 |     computed |
 | `mutations`   | state값을 변경하는 로직을 선언 |       method |
-| `actions`     | 비동기 처리 로직을 선언 | aysnc method |
+| `actions`     | 비동기 처리 로직(api 통신)을 선언 | aysnc method |
 | `commit`      | 변이(mutations) 호출 |       method |
 | `dispatch`    | 액션(actions) 호출 (한 액션에서 다른 액션을 호출할 수 있다) |       method |
 
@@ -133,6 +124,18 @@ export const store = new Vuex.Store({
 
 
 ## 1.state
+
+데이터 구분 
+- vuex state data
+  - 서버에서 데이터를 받아오는 중인지 나타내는 논리값 
+  - 로그인한 사용자 정보 등 전체 애플리케이션에서 사용하는 데이터
+  - 상품정보처럼 애플리케이션 여러 곳에서 사용도리 가능성이 있는 데이터
+
+- component data
+  - 마우스 포인터가 올라간 요소를 나타내는 논리값
+  - 드래그로 끌어온 요소의 좌표
+  - 입력 중인 폼의 입력값
+
 ```js
 // Vue
 data:{
@@ -236,9 +239,14 @@ mutations:{
 },
 actions:{
   //context로 store의 메서드(mutations)와 속성 접근
-  delayDoubleNumber(context){
+  delayDoubleNumber(context){    
     //commit() : mutations발생
     context.commit('doubleNumber')
+  },
+  // 위의 메서드를 축약시
+  delayDoubleNumber({commit}){
+    // 전달인자 분해 문법 context.commit=={commit}
+    commit('doubleNumber')
   }
 }
 //App.vue
