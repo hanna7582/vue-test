@@ -278,7 +278,8 @@ new Vue({
 - 애플리케이션 코드를 자바스크립트 파일로 번들링
 - 템플릿을 html로 렌더링
 - 스타일 및 기타 리소스 삽입
-- template, script, style 3가지 요소 모두 자바스크립트로 변환된 다음 각각 js, html, css로 동작한다.
+
+template, script, style 3가지 요소 모두 자바스크립트로 변환된 다음 각각 js, html, css로 동작한다.
 
 ![컴포넌트 렌더링](img/컴포넌트_렌더링.png)
 
