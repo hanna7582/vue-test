@@ -14,14 +14,15 @@
 - [특징](#특징)
 - [JSP와 Vue비교](#jsp와-vue비교)
 - [생명주기(Lifecycle)](#생명주기Lifecycle)
-- [인스턴스](#인스턴스) 
 - [컴포넌트](#컴포넌트)
 - [템플릿 문법](#템플릿-문법)
 - [컴포넌트 통신](#컴포넌트-통신)
 - [Vue CLI](#vue-cli)
 
 # [개요](#vuejs)
-웹페이지 화면을 개발하기 위한 SPA 자바스크립트 프레임워크
+웹페이지 화면을 개발하기 위한 SPA 자바스크립트 프레임워크.
+ 
+
 
 `Reactivity`  
 - Vue.js가 추구하는 가장 중심사상이자 핵심기능  
@@ -88,7 +89,7 @@ html(jsp), js, css파일로 분리하거나 body태그 안에 script나 jstl를 
 ## 재사용성
 `jsp`  
 ```html
-<%@ include file="/WEB-INF/jsp/common/header.jsp"%> 
+<%@ include file="/WEB-INF/jsp/common/header.jsp" %> 
 ```
 `Vue`  
 ```html
@@ -217,12 +218,15 @@ export default {
 
 
 # [생명주기(Lifecycle)](#vuejs)
-<!-- ![Vue Lifecycle](https://vuejs.org/images/lifecycle.png) -->
-![lifecycle](img/lifecycle.png)
+Vue의 인스턴스는 Vue 생성자로 생성하며 아래의 생명주기를 갖는다.  
+
 - 인스턴스 생성(create)  
 - 인스턴스 부착(mount)   
 - 인스턴스 갱신(update)  
 - 인스턴스 제거(destroy)     
+
+<!-- ![Vue Lifecycle](https://vuejs.org/images/lifecycle.png) -->
+![lifecycle](img/lifecycle.png)
 
 | 속성 | 설명 |
 | ---  | --- |
@@ -236,12 +240,36 @@ export default {
 | destroyed | 뷰 인스턴스가 파괴되고 나서 호출되는 단계이다. 뷰 인스턴스에 정의한 모든 속성이 제거되고 하위에 선언한 인스턴스들 또한 모두 제거된다.
 
 * `render()` : 자바스크립트로 화면의 돔을 그리는 함수
+ 
 
 
 
-# [인스턴스](#vuejs)
-필수로 생성해야하는 단위이며 인스턴스안에 여러가지 내용을 추가할 수 있다.
+# [컴포넌트](#vuejs)
+화면의 영역을 구분해서 개발하는 방식  
+UI는 컴포넌트 기반으로 개발하며 이는 코드의 재사용관점에서 유용하다.
 
+vue-cli로 프로젝트를 생성하면 vue파일을 만들어서 파일별로 컴포넌트를 관리할 수 있다.
+
+`전역 컴포넌트`
+```javascript
+Vue.component('some-comp', {
+  data: function () {
+    return {
+      foo: 'bar'
+    }
+  }
+})
+```
+`지역 컴포넌트`
+```javascript
+new Vue({
+  data: {
+    foo: 'bar'
+  }
+})
+```
+
+## vue-cli 프로젝트의 싱글 파일 컴포넌트(.vue 파일) 구조
 `templete`
 ```html
 <template>
@@ -319,44 +347,6 @@ computed: {
   }
 }
 ```
-
-
-
-# [컴포넌트](#vuejs)
-화면의 영역을 구분해서 개발하는 방식  
-UI는 컴포넌트 기반으로 개발하며 이는 코드의 재사용관점에서 유용하다.
-
-vue-cli로 프로젝트를 생성하면 vue파일을 만들어서 파일별로 컴포넌트를 관리할 수 있다.
-
-`전역 컴포넌트`
-```javascript
-Vue.component('some-comp', {
-  data: function () {
-    return {
-      foo: 'bar'
-    }
-  }
-})
-```
-`지역 컴포넌트`
-```javascript
-new Vue({
-  data: {
-    foo: 'bar'
-  }
-})
-```
-`.vue 파일(싱글 파일 컴포넌트)`
-```javascript
-export default {
-  data () {
-    return {
-      foo: 'bar'
-    }
-  }
-}
-```
-
 
 
 
@@ -501,21 +491,23 @@ export default {
 
 ## 프로젝트 생성시 구조
 
-프로젝트명  
-- dist : 빌드시 생성되는 폴더  
-- node_modules : npm 모듈 소스
-- public 
-  - favicon.ico
-  - index.html : 번들링된 파일을 삽입하고 클라이언트에서 랜더링을 수행
-- src  
-  - `assets ` : image, css, js등의 정적 소스
-  - `components` : 루트 컴포넌트에 연결되는 독립적인 컴포넌트
-  - `App.vue` : 루트 컴포넌트
-  - `main.js ` : webpack이 빌드를 시작할 때 가장 처음 불러오는 진입 지점(Entry Point)
-- .gitignore : git을 사용할 경우 형상관리하지 않을 목록을 작성  
-- babel.config.js  : 크로스브라우징을 위한 트랜스파일링
-- package-lock.json : 의존성 트리에 대한 정보
-- package.json : npm 모듈 설정
-- README.md : 애플리케이션의 정보를 작성 후 git으로 함께 배포
-- `vue.config.js` : webpack 설정
-- yarn.lock : 의존성관리 javascript 패키지 매니저 
+- 프로젝트명  
+  - dist : 빌드시 생성되는 폴더  
+  - node_modules : npm 모듈 소스
+  - public 
+    - favicon.ico
+    - index.html : 번들링된 파일을 삽입하고 클라이언트에서 랜더링을 수행
+  - src  
+    - `assets ` : image, css, js등의 정적 소스
+    - `components` : 루트 컴포넌트에 연결되는 독립적인 컴포넌트
+    - `App.vue` : 루트 컴포넌트
+    - `main.js ` : webpack이 빌드를 시작할 때 가장 처음 불러오는 진입 지점(Entry Point)
+  - .gitignore : git을 사용할 경우 형상관리하지 않을 목록을 작성  
+  - babel.config.js  : 크로스브라우징을 위한 트랜스파일링
+  - package-lock.json : 의존성 트리에 대한 정보
+  - package.json : npm 모듈 설정
+  - README.md : 애플리케이션의 정보를 작성 후 git으로 함께 배포
+  - `vue.config.js` : webpack 설정
+  - yarn.lock : 의존성관리 javascript 패키지 매니저 
+
+
