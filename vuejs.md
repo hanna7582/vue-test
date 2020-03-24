@@ -12,12 +12,12 @@
 ## 목차
 - [개요](#개요)
 - [특징](#특징)
+- [Vue CLI](#vue-cli)
 - [JSP와 Vue비교](#jsp와-vue비교)
 - [생명주기(Lifecycle)](#생명주기Lifecycle)
 - [컴포넌트](#컴포넌트)
 - [템플릿 문법](#템플릿-문법)
 - [컴포넌트 통신](#컴포넌트-통신)
-- [Vue CLI](#vue-cli)
 
 # [개요](#vuejs)
 - 웹페이지 화면을 개발하기 위한 SPA 자바스크립트 프레임워크
@@ -69,6 +69,39 @@ MVVM패턴의 뷰모델(ViewModel)레이어에 해당하는 화면 단 라이브
   
 
 
+
+# [Vue CLI](#vuejs)
+
+커멘드 라인 인터페이스 기반의 Vue 프로젝트 생성 도구 
+
+`vue-cli 라이브러리 설치(전역)`
+> npm i @vue/cli -g
+
+## 프로젝트 생성시 구조
+
+- 프로젝트명  
+  - dist : 빌드시 생성되는 폴더  
+  - node_modules : npm 모듈 소스
+  - public 
+    - favicon.ico
+    - index.html : 번들링된 파일을 삽입하고 클라이언트에서 랜더링을 수행
+  - src  
+    - `assets ` : image, css, js등의 정적 소스
+    - `components` : 루트 컴포넌트에 연결되는 독립적인 컴포넌트
+    - `App.vue` : 루트 컴포넌트
+    - `main.js ` : webpack이 빌드를 시작할 때 가장 처음 불러오는 진입 지점(Entry Point)
+  - .gitignore : git을 사용할 경우 형상관리하지 않을 목록을 작성  
+  - babel.config.js  : 크로스브라우징을 위한 트랜스파일링
+  - package-lock.json : 의존성 트리에 대한 정보
+  - package.json : npm 모듈 설정
+  - README.md : 애플리케이션의 정보를 작성 후 git으로 함께 배포
+  - `vue.config.js` : webpack 설정
+  - yarn.lock : 의존성관리 javascript 패키지 매니저 
+
+
+
+
+
 # [JSP와 Vue비교](#vuejs)
 
 ## DOM 제어 
@@ -81,11 +114,9 @@ v-on, v-bind, ref 등의 vue의 특수한 디렉티브를 사용하여 제어한
 --------------------
 ## 파일과 작업영역 구성
 `jsp`  
-백엔드, 프론트엔드가 혼용된 스파게티 코드  
 html(jsp), js, css파일로 분리하거나 body태그 안에 script나 jstl를 사용한다.
 
 `Vue`  
-프론트엔드
 하나의 컴포넌트(.vue)에 templete, script, style로 나눠서 작업한다.   
 
 --------------------
@@ -254,6 +285,7 @@ UI는 컴포넌트 기반으로 개발하며 이는 코드의 재사용관점에
 
 vue-cli로 프로젝트를 생성하면 vue파일을 만들어서 파일별로 컴포넌트를 관리할 수 있다.
 
+
 `전역 컴포넌트`
 ```javascript
 Vue.component('some-comp', {
@@ -280,8 +312,9 @@ new Vue({
 - 스타일 및 기타 리소스 삽입
 
 template, script, style 3가지 요소 모두 자바스크립트로 변환된 다음 각각 js, html, css로 동작한다.
-
+  
 ![컴포넌트 렌더링](img/컴포넌트_렌더링.png)
+
 
 `templete`
 ```html
@@ -378,7 +411,7 @@ computed: {
 - event emit(하위에서 상위로) : 특정 컴포넌트에서만 사용되는 고유 이벤트
 
 ## props name 규칙
-props에서 카멜케이스로 작성했다면 html에서는 대소문자 구분이 없으므로 케밥케이스로 작성해야한다.
+props에서 카멜케이스로 작성했다면 html에서는 대소문자 구분이 없으므로 케밥케이스로 작성하는 것을 권장하고 있다.
 ```html
 <WelcomeMessage :greeting-text1="hi" :greetingtext2="hi"/>
 
@@ -400,20 +433,20 @@ export default {
 
 1. appContent컴포넌트에서 클릭 이벤트 발생하면 passNum()메소드 실행 
 2. emit으로 pass이벤트와 10을 부모컴포넌트로 전달 
-3. 부모쪽에서는 appContent컴포넌트에서 pass라는 이벤트가 감지되면 getNum()메소드 실행
-4. getNum메소드는 전달받은 숫자를 data의 num에 적용 
-5. appHeader컴포넌트는 getNum이라는 props속성에 num변수를 적용하였으므로
+3. 부모쪽에서는 appContent컴포넌트에서 pass라는 이벤트가 감지되면 setNum()메소드 실행
+4. setNum메소드는 전달받은 숫자를 data의 num에 적용 
+5. appHeader컴포넌트는 propsNum이라는 props속성에 num변수를 적용하였으므로
    템플릿 문법 중 {{}}으로 변경된 값을 적용한다.
 
 ```html
     <div id="app">
-        <app-header :getNum="num"></app-header>
-        <app-content @pass="get-num"></app-content>
+        <app-header :props-num="num"></app-header>
+        <app-content @pass="setNum"></app-content>
     </div>
     <script>
         var appHeader = {
-            template: '<div>header{{getNum}}</div>',
-            props: ['getNum']
+            template: '<div>header{{propsNum}}</div>',
+            props: ['propsNum']
         }
         var appContent = {
             template: '<div>content <button @click="passNum">pass</button></div>',
@@ -433,7 +466,7 @@ export default {
                 num: 0
             },
             methods: {
-                getNum: function(num) {
+                setNum: function(num) {
                     this.num = num;
                 }
             },
@@ -441,7 +474,7 @@ export default {
     </script>
 ```
 
-## 데이터 흐름 제어 예제
+## vue-cli 데이터 흐름 제어
 `App.vue`
 ```html
 <template>
@@ -493,34 +526,5 @@ export default {
 </script>
 ```
 
-
-
-# [Vue CLI](#vuejs)
-
-커멘드 라인 인터페이스 기반의 Vue 프로젝트 생성 도구 
-
-`vue-cli 라이브러리 설치(전역)`
-> npm i @vue/cli -g
-
-## 프로젝트 생성시 구조
-
-- 프로젝트명  
-  - dist : 빌드시 생성되는 폴더  
-  - node_modules : npm 모듈 소스
-  - public 
-    - favicon.ico
-    - index.html : 번들링된 파일을 삽입하고 클라이언트에서 랜더링을 수행
-  - src  
-    - `assets ` : image, css, js등의 정적 소스
-    - `components` : 루트 컴포넌트에 연결되는 독립적인 컴포넌트
-    - `App.vue` : 루트 컴포넌트
-    - `main.js ` : webpack이 빌드를 시작할 때 가장 처음 불러오는 진입 지점(Entry Point)
-  - .gitignore : git을 사용할 경우 형상관리하지 않을 목록을 작성  
-  - babel.config.js  : 크로스브라우징을 위한 트랜스파일링
-  - package-lock.json : 의존성 트리에 대한 정보
-  - package.json : npm 모듈 설정
-  - README.md : 애플리케이션의 정보를 작성 후 git으로 함께 배포
-  - `vue.config.js` : webpack 설정
-  - yarn.lock : 의존성관리 javascript 패키지 매니저 
 
 
