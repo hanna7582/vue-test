@@ -1,9 +1,7 @@
 <template>
   <div>
-        <IconShareButton></IconShareButton>
-        <TextShareButton></TextShareButton>
-
-        <span>{{num}}</span>
+        <FaceBookShareButton class="mr-2"></FaceBookShareButton>
+        <TwitterShareButton></TwitterShareButton>
   </div>
 </template>
 
@@ -14,7 +12,7 @@ var Sharable={
         return {_isProcessing:false}
     },
     created(){
-        console.log('Sharable 믹스인');        
+        console.log('Sharable 믹스인 전');        
     },
     methods: {
         share(name){
@@ -33,26 +31,25 @@ var Sharable={
     },
 }
 
-var IconShareButton={
+var FaceBookShareButton={
     mixins:[Sharable],
     created(){
-        console.log('IconShareButton');        
+        console.log('FaceBookShare');        
     },
-    template:`<button @click="share('페이스북')">페이스북 공유</button>`
+    template:`<b-button @click="share('페이스북')" variant="primary">페이스북 공유</b-button>`
 }
 
-var TextShareButton={
+var TwitterShareButton={
     mixins:[Sharable],
     created(){
-        console.log('TextShareButton');        
+        console.log('TwitterShare');        
     },
-    template:`<button @click="share('트위터')">트위터 공유</button>`
+    template:`<b-button @click="share('트위터')" variant="info">트위터 공유</b-button>`
 }
-
 
 var mixin={
     created(){
-        console.log('믹스인',this.num);        
+        console.log('믹스인 전 create', this.num++);        
     }
 }
 export default {
@@ -62,10 +59,10 @@ export default {
         }
     },
     created(){
-        this.num+=1;        
+       console.log('믹스인 후 create', this.num++);              
     },
     mixins:[mixin],
-    components:{IconShareButton,TextShareButton}     
+    components:{FaceBookShareButton,TwitterShareButton}     
 }
 </script>
 

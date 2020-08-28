@@ -1,6 +1,11 @@
 <template>
     <div>
-        <button @click="increment">숫자 증가</button>{{num}}
+        <b-input-group prepend="number" class="w-25">
+            <b-form-input :value="num" readonly></b-form-input>
+            <b-input-group-append>                        
+                <b-button @click="increment" variant="info">증가</b-button>        
+            </b-input-group-append>
+        </b-input-group>
     </div>
 </template>
 

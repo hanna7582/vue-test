@@ -1,22 +1,31 @@
 <template>
-    <nav>
-        <h1>Vue Test</h1>
-        <button 
-                v-for="(item, index) in menu" 
-                :key="index" 
-                @click="menuActive(item)"
-                :class="{active:isActive(item)}"
-                >{{item | filterName }}</button>
+    <b-navbar toggleable="lg" type="dark" variant="info">
+        <b-navbar-brand href="/" @click.prevent="menuActive('/')">Vue Test</b-navbar-brand>
 
-        <!-- exact 붙이면 다른 화면 전환시 active 비활성화  https://jsfiddle.net/8xrk1n9f/ -->
-        <!-- <router-link to="/" exact>Home</router-link>
-        <router-link to="/Home">Home</router-link>
-        <router-link to="/Home/Child">Child</router-link>
-        <router-link to="/Tab">Tab</router-link>
-        <router-link to="/LifeCycle">LifeCycle</router-link>
-        <router-link to="/ListItem">ListItem</router-link>
-        <router-link to="/Control">Control</router-link> -->      
-        </nav>
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+        <b-collapse id="nav-collapse" is-nav>
+            <b-navbar-nav>
+                <b-nav-item 
+                    :href="item" 
+                    v-for="(item, index) in menu" 
+                    :key="index" 
+                    class="nav-item nav-link"
+                    @click.prevent="menuActive(item)"
+                    :class="{active:isActive(item)}"
+                    >{{item | filterName }}</b-nav-item>
+            </b-navbar-nav>
+        </b-collapse>
+    </b-navbar>
+
+    <!-- exact 붙이면 다른 화면 전환시 active 비활성화  https://jsfiddle.net/8xrk1n9f/
+    <router-link to="/" exact>Home</router-link>  
+    <router-link 
+        v-for="(item, index) in menu" 
+        :key="index" 
+        :to="item"
+        class="nav-item nav-link"
+        >{{item | filterName }}</router-link> -->    
 </template>
 
 <script>
@@ -24,16 +33,17 @@ export default {
     data() {
         return {
             menu:[
-                // '/',
                 // '/Home',
                 // '/Home/Child',
-                '/LifeCycle',
-                '/Control',
-                // '/Tab',
-                // '/Transition',
-                // '/Animate',
-                // '/Directive',
-                // '/Mixin'
+                // '/LifeCycle',
+                // '/Mixin',
+                '/CompChange',
+                '/Swiper',
+                '/Tab',
+                '/Animation',
+                '/Event',
+                '/Form',
+                '/Data',
             ],
             activeMenu:'/'
         }
@@ -60,31 +70,10 @@ export default {
         isActive(name){
             return name==this.activeMenu;
         }
-    },
-    beforeRouteEnter (to, from, next) {
-        console.log(to, from, next);
     }
 }
 </script>
 
-<style lang="scss" scoped>  
-    nav{
-        display: flex;
-        height: 49px;
-        border-bottom:1px solid #000;
-    }
+<style>  
     
-    h1{
-        line-height: 50px;
-        padding: 0 10px;
-    }
-    button{
-        border:0;
-        padding: 0 5px;
-        background:white;
-        &.active{
-            background: #03A9F4;
-            color:white;
-        }
-    }
 </style>

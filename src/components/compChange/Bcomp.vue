@@ -1,12 +1,12 @@
 <template>
-    <div>
-        Child Component
-    </div>
+  <div>
+      B Component
+  </div>
 </template>
 
 <script>
 export default {
-   
+    
 }
 </script>
 

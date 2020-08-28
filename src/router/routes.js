@@ -1,67 +1,72 @@
 import Home from '../components/Home'
 
 function loadView(view) {
-    return () =>
-        import (`../components/${view}.vue`);
+  return () =>
+    import (`../components/${view}.vue`);
 }
 
 // array
 const routes = [{
-        path: '/',
-        component: Home,
+    path: '/',
+    component: Home,
+  },
+  {
+    path: '/Home',
+    name: 'Home',
+    component: Home,
+    children: [{
+      path: 'Child',
+      component: loadView('Child'),
+    }]
+  },
+  {
+    path: '/Tab',
+    name: 'Tab',
+    components: {
+      default: loadView('tab/Tab'),
+      Footer: loadView('Footer'),
     },
-    {
-        path: '/Home',
-        name: 'Home',
-        component: Home,
-        children: [{
-            path: 'Child',
-            component: loadView('Child'),
-        }]
-    },
-    {
-        path: '/Tab',
-        name: 'Tab',
-        components: {
-            default: loadView('Tab'),
-            Footer: loadView('Footer'),
-        },
-    },
-    {
-        path: '/LifeCycle',
-        name: 'LifeCycle',
-        component: loadView('LifeCycle'),
-    },
-    {
-        path: '/ListItem',
-        name: 'ListItem',
-        component: loadView('ListItem'),
-    },
-    {
-        path: '/Control',
-        name: 'Control',
-        component: loadView('Control'),
-    },
-    {
-        path: '/Transition',
-        name: 'Transition',
-        component: loadView('Transition'),
-    },
-    {
-        path: '/Animate',
-        name: 'Animate',
-        component: loadView('Animate'),
-    },
-    {
-        path: '/Directive',
-        name: 'Directive',
-        component: loadView('Directive'),
-    },
-    {
-        path: '/Mixin',
-        name: 'Mixin',
-        component: loadView('Mixin'),
-    },
+  },
+  {
+    path: '/LifeCycle',
+    name: 'LifeCycle',
+    component: loadView('LifeCycle'),
+  },
+  {
+    path: '/Animation',
+    name: 'Animation',
+    component: loadView('animation/Animation'),
+  },
+  {
+    path: '/Mixin',
+    name: 'Mixin',
+    component: loadView('Mixin'),
+  },
+  {
+    path: '/CompChange',
+    name: 'CompChange',
+    component: loadView('compChange/CompChange'),
+  },
+  {
+    path: '/Swiper',
+    name: 'Swiper',
+    component: loadView('Swiper'),
+  },
+  {
+    path: '/Event',
+    name: 'Event',
+    component: loadView('event/Event'),
+  },
+  {
+    path: '/Form',
+    name: 'Form',
+    component: loadView('form/Form'),
+  },
+  {
+    path: '/Data',
+    name: 'Data',
+    component: loadView('data/Data'),
+  },
 ]
 
 //object

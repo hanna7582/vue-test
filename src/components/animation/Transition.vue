@@ -1,8 +1,8 @@
 <template>
   <div>
-      <button @click="ani">토글</button>
+      <b-button variant="primary" @click="ani">토글</b-button>
       <transition name="fade">
-        <div v-show="active">화면</div>          
+        <b-card v-show="active">내용</b-card>          
       </transition>
   </div>
 </template>
